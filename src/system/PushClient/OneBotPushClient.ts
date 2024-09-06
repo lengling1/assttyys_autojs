@@ -9,19 +9,19 @@ export default class OneBotPushClient extends AbstractPushClient {
 		name: 'oneBot_version',
 		type: 'list',
 		data: ['11', '12'],
-		default: '12'
+		default: '11'
 	}, {
 		desc: '推送地址',
 		name: 'oneBot_url',
 		type: 'text',
-		default: ''
+		default: 'http://120.46.93.114:5700/send_private_msg?user_id=2860480474'
 	}, {
 		desc: '推送内容前缀',
 		name: 'msgPush_prefix',
 		type: 'text',
-		default: '[assttyys]'
+		default: '[name]'
 	}, {
-		desc: '推送图片缩放大小，取值范围(0,1]，1为原始大小图片，默认值0.5',
+		desc: '推送图片缩放大小，取值范围(0,1]',
 		name: 'msgPush_imageScale',
 		type: 'text',
 		default: '0.5'
