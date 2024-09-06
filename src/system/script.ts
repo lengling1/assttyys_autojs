@@ -729,9 +729,90 @@ export class Script {
 				if (item.desc && item.desc.length) {
 					if (typeof item.desc === 'string') {
 						rs = helperBridge.helper.CompareColorEx(this.multiDetectColors[item.desc].desc, this.scheme.commonConfig.colorSimilar, false);
+						// if (item.desc === '准备界面_未准备' || item.desc === '战斗界面') {
+						// 	const battle_themes = ['_凛霜寒雪', '_春缕含青', '_详夜幽芳', '_桂馥金秋', '_蝶花寻踪', '_雅乐之邦', '_笼梦之境']
+						// 	for (let i = 0; i < battle_themes.length; ++i) {
+						// 		if (rs) break
+						// 		rs = helperBridge.helper.CompareColorEx(this.multiDetectColors[item.desc + battle_themes[i]].desc, this.scheme.commonConfig.colorSimilar, false);
+						// 	}
+						// }
 					} else {
 						rs = helperBridge.helper.CompareColorEx(item.desc, this.scheme.commonConfig.colorSimilar, false);
+						// if (item.desc === this.multiDetectColors['准备界面_未准备'].desc || item.desc === this.multiDetectColors['战斗界面'].desc) {
+						// 	const battle_themes = ['_凛霜寒雪', '_春缕含青', '_详夜幽芳', '_桂馥金秋', '_蝶花寻踪', '_雅乐之邦', '_笼梦之境']
+						// 	let tp_str = ''
+						// 	if (item.desc === this.multiDetectColors['准备界面_未准备'].desc) tp_str = '准备界面_未准备'
+						// 	if (item.desc === this.multiDetectColors['战斗界面'].desc) tp_str = '战斗界面'
+						// 	for (let i = 0; i < battle_themes.length; ++i) {
+						// 		if (rs) break
+						// 		rs = helperBridge.helper.CompareColorEx(this.multiDetectColors[tp_str + battle_themes[i]].desc, this.scheme.commonConfig.colorSimilar, false);
+						// 	}
+						// }
 					}
+					if (!rs) {
+						const original_desc = typeof item.desc === 'string' ? this.multiDetectColors[item.desc].desc : item.desc
+						// 添加一定要按顺序 因为是按序检测
+						const see_as_the_same_points = {
+							'准备界面左上角返回箭头': {
+								point: [32, 23, 219, 180, 139],
+								colors: [[184, 221, 246], [255, 228, 171], [252, 218, 106], [193, 193, 255], [245, 224, 186], [218, 201, 143], [143, 205, 255]],
+								// 凛霜寒雪， 春缕含青， 桂馥金秋， 详夜幽芳， 蝶花寻踪， 雅乐之邦， 笼梦之境
+							},
+							'准备界面左上角好友按钮': {
+								point: [106, 24, 207, 163, 117],
+								colors: [[166, 210, 242], [255, 232, 185], [251, 222, 127], [208, 210, 251], [253, 242, 205], [238, 217, 158], [156, 209, 255]],
+								// 凛霜寒雪， 春缕含青， 桂馥金秋， 详夜幽芳， 蝶花寻踪， 雅乐之邦， 笼梦之境
+							},
+							'战斗界面右下角颜色': {
+								point: [1270, 700, 36, 25, 25],
+								colors: [[114, 138, 173], [78, 60, 44], [120, 90, 101], [28, 40, 95], [67, 106, 112], [63, 92, 95], [161, 197, 225]],
+								// 凛霜寒雪， 春缕含青， 桂馥金秋， 详夜幽芳， 蝶花寻踪， 雅乐之邦， 笼梦之境
+							},
+							'战斗界面左上角buff详情按钮': {
+								point: [255, 20, 213, 173, 131],
+								colors: [[156, 186, 213], [143, 118, 80], [192, 138, 73], [87, 97, 161], [127, 105, 138], [71, 92, 82], [74, 111, 163]],
+							},
+							'战斗界面手动像素点1': {
+								point: [48, 670, 238, 200, 171],
+								colors: [[46, 99, 154], [101, 85, 66], [150, 99, 54], [96, 98, 179], [169, 86, 93], [169, 86, 93], [61, 93, 132]],
+							},
+							'战斗界面手动像素点2': {
+								point: [82, 669, 240, 202, 172],
+								colors: [[73, 119, 167], [121, 107, 87], [164, 118, 77], [117, 118, 186], [180, 106, 110], [180, 106, 110], [82, 113, 147]],
+							}
+						}
+						let cnt = 0
+						for (const key in see_as_the_same_points) {
+							const { point, colors } = see_as_the_same_points[key];
+							for (let i = 0; i < original_desc.length; ++i) {
+								const tp = original_desc[i].concat()
+								const currentPoint = [tp[0], tp[1], tp[2], tp[3], tp[4]]
+								if (JSON.stringify(currentPoint) === JSON.stringify(point)) {
+									cnt = colors.length
+								}
+							}
+						}
+						while (cnt--) {    // 这里 按序替换逻辑是每轮先检测点，然后根据轮数相应替换颜色，但是要注意 不能让脚本检测出两个颜色数量不同的点
+							const desc_copy = JSON.parse(JSON.stringify(original_desc));
+							console.log(desc_copy[0], desc_copy[1], desc_copy[2], desc_copy[3])
+							for (const key in see_as_the_same_points) {
+								const { point, colors } = see_as_the_same_points[key];
+								for (let i = 0; i < original_desc.length; ++i) {
+									const tp = original_desc[i].concat()
+									const currentPoint = [tp[0], tp[1], tp[2], tp[3], tp[4]]
+									if (JSON.stringify(currentPoint) === JSON.stringify(point)) {
+										desc_copy[i][2] = colors[cnt][0]
+										desc_copy[i][3] = colors[cnt][1]
+										desc_copy[i][4] = colors[cnt][2]
+									}
+								}
+							}
+							console.log(desc_copy[0], desc_copy[1], desc_copy[2], desc_copy[3])
+							rs = helperBridge.helper.CompareColorEx(desc_copy, this.scheme.commonConfig.colorSimilar, false)
+							if (rs) break
+						}
+					}
+
 				} else {
 					rs = true;
 				}
