@@ -38,7 +38,7 @@ export default function webviewSettigns() {
 	// }
 
 	if (typeof initStoreSettings.push_type === 'undefined') {
-		initStoreSettings.push_type = '关闭推送';
+		initStoreSettings.push_type = 'oneBot';
 	}
 
 	// if (typeof initStoreSettings.oneBot_version === 'undefined') {
@@ -58,7 +58,7 @@ export default function webviewSettigns() {
 	// }
 
 	if (typeof initStoreSettings.kill_related_app_mode === 'undefined') {
-		initStoreSettings.kill_related_app_mode = 'root';
+		initStoreSettings.kill_related_app_mode = 'android api';
 	}
 
 	// if (isDebugPlayerRunning() && initStoreSettings.remote_log_url === 'undefined') {
@@ -188,7 +188,7 @@ export default function webviewSettigns() {
 			name: 'kill_related_app_mode',
 			type: 'assttyys_setting',
 			stype: 'list',
-			data: ['root', 'android api'],
+			data: ['android api', 'root'],
 			value: storeSettings.kill_related_app_mode
 		}];
 
