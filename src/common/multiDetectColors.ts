@@ -34,23 +34,21 @@ const multiDetectColors: IMultiDetectColorsOrigin = {
 	'战斗界面': {
 		desc: [1280, 720,
 			[
-				[left, 34, 23, 0xdbb48b],
+				[left, 32, 23, 0xdbb48b],
 				[left, 106, 24, 0xcfa375],
-				[right, 1270, 132, 0x48371f],
 				[right, 1270, 700, 0x241919],
-				// [right, 1268, 80, 0x946430],
-				[right, 1266, 545, 0x573f26],
+				[left, 255, 20, 0xd5ad83],
 			]
-		]
+		],
 	},
 	'战斗界面_手动状态': {
 		desc: [
 			1280, 720,
 			[
-				[left, 34, 23, 0xdbb48b],
+				[left, 32, 23, 0xdbb48b],
 				[left, 106, 24, 0xcfa375],
-				[right, 1270, 700, 0x241919],
-				[right, 1270, 130, 0x422f1d],
+				// [right, 1270, 700, 0x241919],
+				[left, 255, 20, 0xd5ad83],
 				[left, 48, 670, 0xeec8ab],
 				[left, 82, 669, 0xf0caac],
 			]
